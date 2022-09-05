@@ -1,12 +1,18 @@
 @startuml
-
-actor hejsan
-
-(First usecase)
-(Another usecase) as (UC2)
-usecase UC3
-
-usecase (Last\nusecase) as UC4
-
-
+left to right direction
+'top to bottom direction
+skinparam packageStyle rectangle
+actor developer
+actor it_manager
+actor fincancial_manager
+rectangle system {
+  developer -- (login)
+  (validateUser) .> (login) : includes
+  (invalidCredentials) .> (validateUser) : extends
+  (login) -- it_manager
+  (login) -- fincancial_manager
+  developer -- (createSalaryRaiseRequest)
+  it_manager -- (checkPerformanceReport)
+  (checkPerformanceReviewForProblems) .> (checkPerformanceReport) : includes
+}
 @enduml
