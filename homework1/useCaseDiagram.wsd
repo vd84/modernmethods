@@ -11,7 +11,7 @@ rectangle system {
   (invalidCredentials) .> (validateUser) : extends
   (login) -- it_manager
   (login) -- fincancial_manager
-  developer -- (createSalaryRaiseRequest)
+  developer - (createSalaryRaiseRequest)
   it_manager -- (checkPerformanceReport)
   (checkPerformanceReviewForProblems) .> (checkPerformanceReport) : includes
 }
