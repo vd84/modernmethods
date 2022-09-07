@@ -1,0 +1,84 @@
+\documentclass{scrreprt}
+
+\usepackage{enumitem}
+\pagenumbering{gobble}
+\newlist{tabenum}{enumerate}{1}
+\setlist[tabenum]{label*=\arabic*.,
+                  labelwidth=2em, 
+                  leftmargin=2em, 
+                  nosep,
+                  before=\begin{minipage}[t]{\hsize},
+                  after=\end{minipage}}
+
+\usepackage{tabularx}
+
+\usepackage[column=0]{cellspace}
+\setlength{\cellspacetoplimit}{\tabcolsep}
+\setlength{\cellspacebottomlimit}{\cellspacetoplimit}
+\addparagraphcolumntypes{X}
+
+% template %
+\newcommand\addrow[2]{#1 & #2\\ \hline}
+
+\newcommand\additemizedrow[2]{#1 &
+        \begin{tabenum}
+            #2
+        \end{tabenum}
+        \\ \hline}
+
+% making stuff convenient %
+\newcommand\name[1]{\addrow{\textbf{Name}}{#1}}
+\newcommand\actor[1]{\addrow{\textbf{Actor}}{#1}}
+\newcommand\entryconditions[1]{\additemizedrow{\textbf{Entry Conditions}}{#1}}
+\newcommand\exceptionalusecases[1]{\addrow{\textbf{Exceptional UseCases}}{#1}}
+
+\newcommand\exitconditions[1]{\addrow{\textbf{Exit Conditions}}{#1}}
+\newcommand\qualityconditions[1]{\addrow{\textbf{Quality Conditions}}{#1}}
+\newcommand\eventflow[1]{\additemizedrow{\textbf{Event Flow}}{#1}}
+
+\newenvironment{usecase}{\tabularx{\textwidth}{|0{wl{4.1cm}}|0{X}|}\hline}{\endtabularx}
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1em}
+
+\begin{document}
+
+\begin{usecase}
+    \name{ManageSalaryRaiseRequests}
+    \actor{Developer (Initiator) \newline
+      IT-Manager \newline 
+      Financial-Manager}
+    \entryconditions{
+        \item Developer logs into the system
+        \item System validates the developer credentials
+        \item Developer accesses the create salary raise request functionality \newline  
+        }
+    \exceptionalusecases{
+        This use case extends InvalidCredentials, PerformanceIssue, PrioriyConflict, DelayRaise and RejectRaise use cases. They are initiated when the login credentials are
+        invalid, or when there is a conflict in the performance for the requested salary raise, or when there are other developers who requested salay raises at the same time as the developer does not get priority, or when the request is delayed by the Financial Manager.  
+    }
+    \exitconditions{Developer, Manager and Financial Manager have agreed whether to approve, cancel or delay the
+    salary raise request.}
+    \qualityconditions{ 
+        The system should be available and functioning without unexpected interruptions.
+    }
+    \eventflow{
+        \item Developer chooses to create a new salary raise request
+        \item System displays the requested form
+        \item Developer accesses the create salary raise request functionality
+        \item Developer chooses to send the request to the manager
+        \item System displays the new request to the manager
+        \item Manager receives the request and chooses to review the performance report
+        \item System displays the performance report to the manager
+        \item Manager chooses to review the salary raise priorites for the other developers
+        \item System displays the list of salary raise requests to the manager
+        \item Manager reviews the salary raise request and chooses to approve or reject the
+        request
+        \item Manager sends the request to the Financial Manager for review
+        \item System displays the list of salary raise requests to the Financial Manager
+        \item The Financial Manager receives the request and checks the budget and decides to 
+        approve or delay the salary raise request
+        \item System displays the result of the request to the initiator developer
+    }
+\end{usecase}
+
+\end{document}
